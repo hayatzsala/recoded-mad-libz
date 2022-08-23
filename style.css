@@ -1,3 +1,39 @@
 /**
  * Your CSS goes here.
  */
+ body{
+    background-image: url('./back.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  font-size: large;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
+ }
+ div{
+    background-color: burlywood;
+    margin: 10%;
+    height: 25%;
+    padding: 15px;
+ }
+ input{
+    width: 70px;
+    margin: 2px;
+    border-radius: 10%;
+    background-color: transparent;
+ }
+ input:focus{
+    background-color: orange;
+    color: aliceblue;
+ }
+
+ input:disabled{
+    pointer-events: none;
+    border: none;
+    border-radius: none;
+    color: black;
+    font-size: large;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+ }
