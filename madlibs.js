@@ -78,11 +78,13 @@ getRawStory()
   .then(parseStory)
   .then((processedStory) => {
     PrintStory(processedStory);
-    
-
-    console.log(processedStory);
+   // console.log(processedStory);
+  })
+  .then(()=>{
+    loadData();
   });
 const MAX_INPUT = 10;
+let ids =0;
   function PrintStory(story){
     var count =1;
     var allStory = '';
@@ -91,30 +93,33 @@ const MAX_INPUT = 10;
     for(let i=0;i < story.length;i++){
       allStory += story[i].pos === undefined || count > MAX_INPUT
       ? story[i].word + ' '
-      :getPosElement(story[i].pos,i); 
+      :getPosElement(story[i].pos,ids); 
 
       reviewStory += story[i].pos === undefined || count > MAX_INPUT
       ? story[i].word + ' '
-      :getPosElementReview(story[i].pos,i);
+      :getPosElementReview(story[i].pos,ids);
 
       count += story[i].pos!==undefined ? 1 : 0; 
+      
     }
     console.log(allStory);
     editArea.innerHTML=allStory;
     viewArea.innerHTML = reviewStory;
+    
   }
 
 function getPosElement(pos,id){
   if(pos === undefined){
     return '';
   }
+  ids++;
   return `<input placeholder="${pos}" id="input-${id}" onInput="printText(this)" maxlength="20"/>`
 }
 function getPosElementReview(pos, id){
   if(pos === undefined){
     return '';
   }
-  return `<input placeholder="${pos}" id="review-${id}" disabled maxlength="20">`
+  return `<input placeholder="${pos}" id="review-${id-1}" disabled maxlength="20">`
 }
 
 const printText=(txt)=>{
@@ -122,14 +127,31 @@ const printText=(txt)=>{
  
   document.addEventListener('keydown', (event) => {
     if(event.key == "Enter") {
-      target = event.target || event.srcElement,
+      target = event.target,
             nextInput = target.nextSibling;
         while ( nextInput.tagName !== 'INPUT' && nextInput.nextSibling ) {
             nextInput = nextInput.nextSibling;
+            
         }
+        localStorage.setItem(txt.id,txt.value);
+            console.log('locallll' +localStorage.getItem(txt.id));
         nextInput.focus();
   }
 });
   const review = document.querySelector(`#review-${id[1]}`);
   review.value = txt.value;
 }
+
+function loadData(){
+    console.log('Helllllo thereee');
+    for (let i =0;i<MAX_INPUT;i++){
+      const edit = document.querySelector(`#input-${i}`);
+      const review = document.querySelector(`#review-${i}`);
+      console.log(localStorage.getItem(edit.id));
+      edit.value = localStorage.getItem(edit.id) ?? '';
+      review.value = localStorage.getItem(edit.id)?? '';
+      
+    }
+  
+}
+
